@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>👑 Crowned Queen</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(145deg, #fceff9, #e0f7fa);
+      height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .girl {
+      font-size: 6rem;
+      opacity: 0;
+      animation: enterGirl 2s ease-out forwards;
+    }
+
+    @keyframes enterGirl {
+      0% {
+        transform: scale(0.2);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1.5);
+        opacity: 1;
+      }
+    }
+
+    .title {
+      font-size: 1.6rem;
+      color: #d63384;
+      margin-top: 30px;
+      font-weight: bold;
+      opacity: 0;
+      animation: fadeIn 1s ease 2.5s forwards;
+      text-align: center;
+      padding: 0 20px;
+    }
+
+    .subtext {
+      font-size: 1.1rem;
+      color: #444;
+      margin-top: 10px;
+      max-width: 90%;
+      text-align: center;
+      opacity: 0;
+      animation: fadeIn 1s ease 3s forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .burst {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 1;
+      transition: transform 1.8s ease-out, opacity 1.8s;
+    }
+
+    @media (max-width: 480px) {
+      .girl {
+        font-size: 4.5rem;
+      }
+      .title {
+        font-size: 1.2rem;
+      }
+      .subtext {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="girl">👸</div>
+  <div class="title">You’ve Unlocked: The Official Crown of NZ’s Best Friend</div>
+  <div class="subtext">Mallamma — A soul worth celebrating. Forever. 💖</div>
+
+  <!-- Background Music -->
+  <audio id="bgm" src="https://cdn.pixabay.com/download/audio/2023/03/05/audio_eebf92e4cc.mp3?filename=soft-birthday-piano-14099.mp3" loop></audio>
+
+  <script>
+    // 👑 Enable music on click (browser limitation)
+    window.addEventListener('click', () => {
+      const audio = document.getElementById('bgm');
+      audio.volume = 0.4;
+      audio.play().catch(() => {});
+    });
+
+    // 🎉 Emoji burst
+    function burst() {
+      const emojis = ['🌸', '🎈', '💖', '✨', '🎊'];
+      for (let i = 0; i < 30; i++) {
+        const emoji = emojis[Math.floor(Math.random() * emojis.length)];
+        const span = document.createElement('span');
+        span.className = 'burst';
+        span.innerText = emoji;
+        const size = Math.random() * 2 + 3; // 3rem to 5rem
+        span.style.fontSize = `${size}rem`;
+
+        document.body.appendChild(span);
+
+        const x = (Math.random() - 0.5) * 800;
+        const y = (Math.random() - 0.5) * 800;
+        const r = Math.random() * 360;
+
+        requestAnimationFrame(() => {
+          span.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) rotate(${r}deg)`;
+          span.style.opacity = 0;
+        });
+
+        setTimeout(() => span.remove(), 2000);
+      }
+    }
+
+    // ⏱️ Trigger burst after emoji enters
+    setTimeout(burst, 500);
+  </script>
+
+</body>
+</html>

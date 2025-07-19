@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Memory Flipbook 📖</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom right, #f8fbff, #e1f5fe);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+      overflow-x: hidden;
+    }
+
+    .book {
+      width: 320px;
+      height: 440px;
+      perspective: 1500px;
+      position: relative;
+      z-index: 2;
+      margin-left: 20%;
+    }
+
+    .page {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      transform-origin: left;
+      background-color: #fff;
+      transition: transform 1s ease, z-index 1s;
+      cursor: pointer;
+    }
+
+    .page img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.95);
+    }
+
+    .caption {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      padding: 12px;
+      font-size: 0.95rem;
+      background: rgba(57, 52, 52, 0.525);
+      color: #fff;
+      /* border: 2px solid rgb(255, 113, 236); */
+      text-align: center;
+      font-weight: 500;
+    }
+    .cc{
+        position: absolute;
+      bottom: 60% !important;
+    }
+
+    .flipped {
+      transform: rotateY(-160deg);
+      z-index: 0 !important;
+    }
+
+    .page:nth-child(1) { z-index: 9; }
+    .page:nth-child(2) { z-index: 8; }
+    .page:nth-child(3) { z-index: 7; }
+    .page:nth-child(4) { z-index: 6; }
+    .page:nth-child(5) { z-index: 5; }
+    .page:nth-child(6) { z-index: 4; }
+     .page:nth-child(7) { z-index: 3; }
+      .page:nth-child(8) { z-index: 2; }
+       .page:nth-child(9) { z-index: 1; }
+
+    .left-text  {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.2rem;
+      color: #d63384;
+      text-align: center;
+      padding: 20px;
+      max-width: 200px;
+      opacity: 1;
+      transition: opacity 0.5s ease;
+      z-index: 2;
+    }
+.right-text{
+       position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.2rem;
+      color: #d63384;
+      text-align: center;
+      padding: 20px;
+      max-width: 200px;
+      opacity: 1;
+      transition: opacity 0.5s ease;
+      z-index: 2;
+  }
+
+    .left-text {
+      left: 30%;
+      /* display: none; */
+    }
+
+    .right-text {
+      right: 10%;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      /* display: none; */
+    }
+
+    .book-open .left-text {
+      opacity: 0;
+    }
+
+    .book-closed .right-text {
+      opacity: 1;
+    }
+
+    @media (max-width: 480px) {
+      .book {
+        width: 80vw;
+        height: 600px;
+        margin-left: 150px;
+      }
+
+      .caption {
+        font-size: 1rem;
+      }
+
+      .left-text, .right-text {
+        font-size: 1rem;
+        display: block;
+        max-width: 150px;
+        padding: 10px;
+      }
+
+      .left-text {
+        left: 4px;
+      }
+
+      .right-text {
+        right: 5px;
+        top:93%;
+        margin-bottom: 100px;
+        cursor: pointer;
+        pointer-events: all;
+      }
+    }
+    
+ button {
+  padding: 10px 30px;
+  
+  width: 150px;
+  background: linear-gradient(to right, #ffbf64, #5ff278);
+  border-radius: 8px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+  </style>
+</head>
+<body>
+  <div class="left-text">Tap on pages to open the book, madam!</div>
+  <div class="book" id="book">
+    <div class="page">
+      <img src="https://i.pinimg.com/736x/ec/a9/75/eca97598ea417675156edd1c2f6f0107.jpg" alt="Memory 1" />
+      <div class="caption cc">"Some beautiful and <br>memorable moments💫"</div>
+    </div>
+    <div class="page">
+      <img src="gal1.jpg" alt="Memory 2" />
+      <div class="caption">"Yevaglu chik hudgi tara irti ala😂🤦🏻‍♂️"</div>
+    </div>
+    <div class="page">
+      <img src="gal2.jpg" alt="Memory 3" />
+      <div class="caption">"Full jor bidamma🤩"</div>
+    </div>
+    <div class="page">
+      <img src="gal3.jpg" alt="Memory 4" />
+      <div class="caption">"Dominos is still in loss,📉 <br> plz stop looting🥲"</div>
+    </div>
+    <div class="page">
+      <img src="gal4.jpg" alt="Memory 5" />
+      <div class="caption">"Don Mode Activated🌸"</div>
+    </div>
+    <div class="page">
+      <img src="gal5.jpg" alt="Memory 6" />
+      <div class="caption">"But the Beauty when you are sad <br>or crying is 😍"</div>
+    </div>
+     <div class="page">
+      <img src="gal6.jpg" alt="Memory 6" />
+      <div class="caption">"Yen le baditiya??? <br> Magane👻 "</div>
+    </div>
+     <div class="page">
+      <img src="gal7.jpg" alt="Memory 6" />
+      <div class="caption">"Ahhhhh,, Pic ❌ Drug✅💫"</div>
+    </div>
+     <div class="page">
+      <img src="gal8.jpg" alt="Memory 6" />
+      <div class="caption">"Complan kudiyod start madu😂 <br> But i still Love You! "</div>
+    </div>
+  </div>
+  <div class="right-text"> <a href="letter.html"><Button>Next 👉🏼</Button></a></div>
+
+
+  <script>
+    const book = document.getElementById('book');
+    const pages = document.querySelectorAll('.page');
+
+    function updateBookState() {
+      const allFlipped = Array.from(pages).every(page => page.classList.contains('flipped'));
+      if (allFlipped) {
+        book.classList.add('book-closed');
+        book.classList.remove('book-open');
+        document.querySelector('.right-text').style.opacity = '1';
+      } else {
+        book.classList.add('book-open');
+        book.classList.remove('book-closed');
+        document.querySelector('.right-text').style.display = '0';
+      }
+    }
+
+    pages.forEach((page, index) => {
+      page.addEventListener('click', () => {
+        if (!page.classList.contains('flipped')) {
+          page.classList.add('flipped');
+          page.style.zIndex = index;
+        } else {
+          page.classList.remove('flipped');
+          page.style.zIndex = pages.length - index;
+        }
+        updateBookState();
+      });
+    });
+
+    // Initialize book state
+    updateBookState();
+  </script>
+</body>
+</html>

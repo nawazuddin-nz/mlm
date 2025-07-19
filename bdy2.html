@@ -1,0 +1,190 @@
+<!--
+Nz's Ultimate Birthday Surprise Website for Mallamma 🎉
+1000% unique, animated, interactive, and full of surprises
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday Mallamma 🎉</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    /* Reset & Setup */
+    * {margin: 0; padding: 0; box-sizing: border-box;}
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to top, #c0eaff, #e6f9ff);
+      overflow-x: hidden;
+      color: #222;
+    }
+
+    header {
+      text-align: center;
+      padding: 80px 20px 40px;
+      background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+    }
+
+    header h1 {
+      font-family: 'Pacifico', cursive;
+      font-size: 3.5rem;
+      color: #035d96;
+      animation: popIn 1.5s ease-out forwards;
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.5); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .section {
+      padding: 60px 30px;
+      max-width: 900px;
+      margin: auto;
+      text-align: center;
+    }
+
+    .section p {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: slideIn 1s ease forwards;
+    }
+
+    .section p:nth-child(1) { animation-delay: 0.5s; }
+    .section p:nth-child(2) { animation-delay: 1s; }
+    .section p:nth-child(3) { animation-delay: 1.5s; }
+    .section p:nth-child(4) { animation-delay: 2s; }
+
+    @keyframes slideIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .surprise-btn {
+      padding: 15px 30px;
+      background: #00aaff;
+      border: none;
+      color: white;
+      font-size: 1.1rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-top: 40px;
+    }
+
+    .surprise-btn:hover {
+      background: #008ecc;
+    }
+
+    .balloons {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 80px;
+      padding: 20px;
+      color: #666;
+    }
+
+    .popup {
+      display: none;
+      position: fixed;
+      top: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      z-index: 9999;
+      text-align: center;
+    }
+
+    .popup.show {
+      display: block;
+      animation: fadeUp 0.5s ease forwards;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .quote {
+      font-style: italic;
+      font-size: 1.1rem;
+      margin-top: 20px;
+    }
+
+    .magic-zone {
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="confetti" class="balloons"></canvas>
+
+  <header>
+    <h1>Happy Birthday, Mallamma! 🎉</h1>
+  </header>
+
+  <section class="section">
+    <p>Today isn’t just another day. It’s YOUR day, Mallamma 💙</p>
+    <p>You’re not just a friend — you’re a vibe, a human meme, a whole emotion 🤸‍♀️</p>
+    <p>This digital surprise? Just my little way to say thanks for being you 🫶</p>
+    <p>So buckle up — you’re about to enter the Birthday Magic Zone ✨</p>
+
+    <div class="magic-zone">
+      <button class="surprise-btn" onclick="launchSurprise()">Click Me 🎁</button>
+    </div>
+  </section>
+
+  <div class="popup" id="popupBox">
+    <h2>You just unlocked a secret 🎊</h2>
+    <p>Smile check? 😁 You’re officially the Queen of Chaos today 👑</p>
+    <p class="quote">“Some people make your laugh louder, your smile brighter & your life better.”</p>
+    <p>That’s you. Always has been. Always will be 💫</p>
+  </div>
+
+  <footer>
+    Crafted with code & care by ~ Nz 💻❤️
+  </footer>
+
+  <script>
+    // Confetti from CDN
+    const script = document.createElement("script");
+    script.src = "https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js";
+    document.head.appendChild(script);
+
+    function launchSurprise() {
+      const box = document.getElementById("popupBox");
+      box.classList.add("show");
+      confettiLoop();
+    }
+
+    function confettiLoop() {
+      const duration = 3 * 1000;
+      const end = Date.now() + duration;
+      (function frame() {
+        confetti({ particleCount: 7, angle: 60, spread: 55, origin: { x: 0 } });
+        confetti({ particleCount: 7, angle: 120, spread: 55, origin: { x: 1 } });
+        if (Date.now() < end) {
+          requestAnimationFrame(frame);
+        }
+      })();
+    }
+  </script>
+</body>
+</html>

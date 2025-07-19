@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Best Friend Celebration</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden !important;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(to bottom right, #fceff9, #e0f7fa);
+            font-family: 'Segoe UI', sans-serif;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        .crown-emoji {
+            font-size: 6rem;
+            animation: scaleUp 2s ease-out forwards;
+            opacity: 0;
+        }
+
+        .crown-emoji img {
+            height: 200px;
+            max-width: 100%;
+        }
+
+        .title {
+            font-size: 1.8rem;
+            color: #d63384;
+            text-align: center;
+            margin: 20px 0;
+            animation: fadeIn 1s ease-out 2.5s forwards;
+            opacity: 0;
+        }
+
+        .subtext {
+            font-size: 1.2rem;
+            color: #444;
+            text-align: center;
+            animation: fadeInUp 1s ease-out 2.5s forwards;
+            opacity: 0;
+        }
+
+        .emoji {
+            position: absolute;
+            pointer-events: none;
+            will-change: transform, opacity;
+            transform: translate(-50%, -50%);
+        }
+
+        .balloon {
+            position: absolute;
+            font-size: 3rem;
+            cursor: pointer;
+            animation: float 5s ease-in-out infinite;
+            will-change: transform;
+        }
+
+        .cta-message {
+            position: fixed;
+            bottom: 15%;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            color: #d63384;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+            max-width: 80%;
+            text-align: center;
+            z-index: 10;
+               border: 2px solid red;
+        }
+
+        .cta-message.show {
+            opacity: 1;
+        }
+
+        .tap-message {
+            position: fixed;
+            bottom: 20%;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            color: #d63384;
+            opacity: 0;
+            border: 2px solid red;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+            max-width: 80%;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .tap-message.fits {
+            opacity: 1;
+        }
+
+        .hand-cta {
+            position: absolute;
+            font-size: 3rem;
+            animation: pulse 1.5s ease-in-out infinite;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        @keyframes scaleUp {
+            0% {
+                transform: scale(0.2);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1.5);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(2deg);
+            }
+            50% {
+                transform: translateY(-30px) rotate(-2deg);
+            }
+            100% {
+                transform: translateY(0) rotate(2deg);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+        }
+
+        @media (max-width: 600px) {
+            html, body {
+                overflow: hidden !important;
+            }
+
+            .crown-emoji {
+                font-size: 3.5rem;
+            }
+
+            .crown-emoji img {
+                height: 120px;
+            }
+
+            .title {
+                font-size: 1.2rem;
+                margin: 15px 10px;
+                line-height: 1.4;
+            }
+
+            .subtext {
+                font-size: 1em;
+                margin: 0 10px;
+                line-height: 1.4;
+            }
+
+            .emoji {
+                font-size: 1.5rem !important;
+            }
+
+            .balloon {
+                font-size: 1.8rem;
+            }
+
+            .hand-cta {
+                font-size: 2rem;
+                top: 75%;
+            }
+
+            .cta-message {
+                font-size: 1.3rem;
+                padding: 10px 20px;
+                bottom: 70%;
+                max-width: 90%;
+            }
+
+            .tap-message {
+                font-size: 1.3rem;
+                padding: 10px 20px;
+                bottom: 18%;
+                max-width: 90%;
+            }
+
+
+             button {
+  padding: 10px 30px;
+  position: absolute;
+  left: 50%;
+  height: 30px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top:85%;
+  transform: translateX(-50%);
+  
+}
+     
+        }
+
+
+         button {
+  padding: 10px 30px;
+  position: absolute;
+  left: 50%;
+  bottom: 15px; /* distance from bottom */
+  transform: translateX(-50%);
+  width: 150px;
+  background: linear-gradient(to right, #ffbf64, #5ff278);
+  border-radius: 8px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+</style>
+</head>
+<body>
+    <div class="crown-emoji"><img src="queenn.png" alt="Crown"></div>
+    <h1 class="title">You’ve Unlocked: <br> The Official Crown of NZ’s Best Friend</h1>
+    <p class="subtext">"Mallamma. The one who deserves Princess Treatment" 💖</p>
+    <div class="cta-message" id="ctaMessage">Tap anywhere to celebrate! 🎉</div>
+    <div class="tap-message" id="tapMessage">Hey, visit other parts of the website too!</div>
+     <a href="booknew.html"><Button>Next 👉🏼</Button></a>
+    <audio id="bgMusic" >
+        <source src="victorsy.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        const emojis = ['🌸', '🎈', '💖', '✨', '🎊'];
+        let musicPlayed = false;
+        let tapCount = 0;
+
+        function playMusic() {
+            if (!musicPlayed) {
+                const audio = document.getElementById('bgMusic');
+                audio.volume = 0.4;
+                audio.play().catch(() => {
+                    console.log('Autoplay prevented. Music will play on next click.');
+                });
+                musicPlayed = true;
+            }
+        }
+
+      function createEmojiBurst(x = window.innerWidth / 2, y = window.innerHeight / 2) {
+    const burstCount = 40;
+    const maxDistance = window.innerWidth <= 600 ? Math.min(window.innerWidth / 4, 100) : Math.min(window.innerWidth / 3, 150);
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+
+    // 🔊 Play sound
+    const blastSound = new Audio('pop.mp3');
+    blastSound.play();
+
+    for (let i = 0; i < burstCount; i++) {
+        const emoji = document.createElement('div');
+        emoji.className = 'emoji';
+        emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+       const size = (window.innerWidth <= 600 ? 3 : 2) + Math.random() * 3 + 'rem';
+   emoji.style.fontSize = size;
+        emoji.style.left = `${x}px`;
+        emoji.style.top = `${y}px`;
+        emoji.style.position = 'absolute';
+        emoji.style.transform = 'translate(-50%, -50%)';
+        emoji.style.transition = 'transform 2s ease-out, opacity 2s ease-out';
+        emoji.style.opacity = 1;
+        document.body.appendChild(emoji);
+
+        const angle = Math.random() * 360;
+        const distance = Math.random() * maxDistance;
+        const finalX = Math.cos(angle * Math.PI / 180) * distance;
+        const finalY = Math.sin(angle * Math.PI / 180) * distance;
+
+        // Bound positions
+        const boundedX = Math.max(10, Math.min(viewportWidth - 10, x + finalX));
+        const boundedY = Math.max(10, Math.min(viewportHeight - 10, y + finalY));
+        const rotation = (Math.random() * 360 - 180) + 'deg';
+        const delay = i * 10;
+
+        setTimeout(() => {
+            emoji.style.transform = `translate(-50%, -50%) translate(${boundedX - x}px, ${boundedY - y}px) rotate(${rotation})`;
+            emoji.style.opacity = '0';
+        }, delay);
+
+        setTimeout(() => {
+            emoji.remove();
+        }, delay + 5000);
+    }
+}
+
+
+        function createBalloons() {
+            const balloonCount = window.innerWidth <= 600 ? 4 : 6;
+            const balloonEmojis = ['🎈', '🎉','🤩'];
+            for (let i = 0; i < balloonCount; i++) {
+                const balloon = document.createElement('div');
+                balloon.className = 'balloon';
+                balloon.textContent = balloonEmojis[Math.floor(Math.random() * balloonEmojis.length)];
+                balloon.style.left = `${15 + Math.random() * 70}%`;
+                balloon.style.top = `${15 + Math.random() * 70}%`;
+                balloon.style.animationDelay = `${Math.random() * 3}s`;
+                document.body.appendChild(balloon);
+            }
+        }
+
+       
+        function showCTAMessage() {
+            const ctaMessage = document.getElementById('ctaMessage');
+            ctaMessage.classList.add('show');
+            setTimeout(() => {
+                ctaMessage.classList.remove('show');
+            }, 3000);
+        }
+
+        window.addEventListener('click', (event) => {
+            playMusic();
+            tapCount++;
+            createEmojiBurst(event.clientX, event.clientY);
+            if (tapCount > 3) {
+                const tapMessage = document.getElementById('tapMessage');
+                tapMessage.classList.add('fits');
+                setTimeout(() => {
+                    tapMessage.classList.remove('fits');
+                }, 3000);
+            }
+        });
+
+        setTimeout(createEmojiBurst, 2500);
+        setTimeout(createBalloons, 2500);
+        // setTimeout(createHandCTA, 2500);
+        setTimeout(showCTAMessage, 4000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>💌 A Letter From NZ</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: linear-gradient(145deg, #fef6f9, #e3f2fd);
+       font-family: 'Nunito', sans-serif;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+    .letter-wrapper {
+      background: #fffafc;
+      border: 2px dashed #d63384;
+      padding: 30px;
+      border-radius: 20px;
+      width: 85%;
+      max-width: 500px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      display: none;
+      opacity: 0.8;
+      flex-direction: column;
+      animation: fadeIn 2s ease;
+      margin-bottom: 20px;
+    }
+    .letter-line {
+      font-size: 1.1rem;
+      margin: 15px 0;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: writeIn 0.8s ease forwards;
+    }
+    .letter-line:nth-child(1) { animation-delay: 0.5s; }
+    .letter-line:nth-child(2) { animation-delay: 3s; }
+    .letter-line:nth-child(3) { animation-delay: 8s; }
+    .letter-line:nth-child(4) { animation-delay: 16s; }
+    .letter-line:nth-child(5) { animation-delay: 23s; }
+    .letter-line:nth-child(6) { animation-delay: 35s; }
+       .letter-line:nth-child(7) { animation-delay: 44s; }
+    .letter-line:nth-child(8) { animation-delay: 52s; }
+    .letter-line:nth-child(9) { animation-delay: 61s; }
+    .letter-line:nth-child(10) { animation-delay: 68s; }
+     .letter-line:nth-child(11) { animation-delay: 69s; }
+    @keyframes writeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    button {
+      padding: 12px 25px;
+      font-size: 1.2rem;
+      background-color: #d63384;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      margin-top: 30px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #ad2167;
+    }
+
+    .hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .hearts span {
+      position: absolute;
+      font-size: 1.8rem;
+      animation: floatHeart 6s linear infinite;
+      opacity: 0.7;
+    }
+
+    @keyframes floatHeart {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h2 style="font-size:2rem; margin-bottom:20px; color:#d63384;">💌 A Letter from NZ</h2>
+
+  <button onclick="showLetter()" id="btn">Read the Letter</button>
+
+  <div class="letter-wrapper" id="letter">
+    <div class="letter-line">Dear Mallamma, 🌸</div>
+    <div class="letter-line">It may seem little Xtra now, BUT Honestly U deserve it. 😄</div>
+    <div class="letter-line">Dont know How & When u just became so important to me, All i know is, You Are..</div>
+    <div class="letter-line">If Real friendship had a face, it would look a lot like you — real, raw, and rare.</div>
+    <div class="letter-line">Maybe this bond wont last ForEver, Even if we forget each other some day, I Still Love You🩵</div>
+       <div class="letter-line">Gottu, Nan ninge tumba sataistini anta, And Sataistaane irtini.. Sorry😁</div>
+    <div class="letter-line">I pray to Allah, To bless You with All the Happiness, Bless you with A long, Healthy, Wealthy, Happy life..</div>
+     <div class="letter-line">And keep U Away from all Bad, Evil Eye, Bad ppl, Bad-luck etc...</div>
+    <div class="letter-line">Ahhh, ist sak tago.. Matte jasti agutte😅, At last Thank You for just being my Best Friend!</div>
+      <div class="letter-line"> <a href="outro.html"><Button>Next 👉🏼</Button></a></div>
+    
+  </div>
+
+  <div class="hearts" id="floatingHearts"></div>
+  <audio id="bgMusic" src="leter.mp3" preload="auto"></audio>
+
+  <script>
+    
+
+    
+
+
+  const btn = document.getElementById("btn");
+
+  function showLetter() {
+    document.getElementById("letter").style.display = "flex";
+    createFloatingHearts();
+    btn.style.display = "none";
+
+    const audio = document.getElementById("bgMusic");
+    audio.volume = 0.5;
+    audio.play().catch(() => {
+      console.log("Autoplay failed, will try on next user interaction.");
+    });
+  }
+
+    function createFloatingHearts() {
+      const container = document.getElementById('floatingHearts');
+      const emojis = ['🌸','🦋','💫'];
+      for (let i = 0; i < 25; i++) {
+        const span = document.createElement('span');
+        span.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+        span.style.left = Math.random() * 100 + 'vw';
+        span.style.top = 100 + Math.random() * 30 + 'vh';
+        span.style.animationDuration = (4 + Math.random() * 3) + 's';
+        container.appendChild(span);
+        setTimeout(() => span.remove() , 100000);
+       
+      }
+    }
+  </script>
+
+</body>
+</html>

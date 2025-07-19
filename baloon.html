@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Balloon Game 🎈</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to top, #fceff9, #e0f7ff);
+      overflow: hidden;
+    }
+
+    #cta, #scoreBoard {
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255,255,255,0.9);
+      padding: 10px 25px;
+      border-radius: 25px;
+      font-weight: bold;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      z-index: 999;
+    }
+
+    #cta {
+      top: 20px;
+      font-size: 1.1rem;
+      color: #ff4081;
+    }
+
+    #scoreBoard {
+      top: 70px;
+      font-size: 1.2rem;
+      color: #ff4081;
+    }
+
+     @media (max-width: 500px) {
+       #cta{
+        font-size: 0.9rem;
+        width: 80%;
+          text-align: center;
+       }
+
+          .message {
+     
+     text-align: center;
+      font-size: 1.2rem !important;
+      width: 85%;
+    
+    }
+     }
+
+    .balloon {
+      position: absolute;
+      bottom: -100px;
+      width: 60px;
+      height: 80px;
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      cursor: pointer;
+      animation: floatUp 6s linear forwards;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      user-select: none;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    @keyframes floatUp {
+      0% { bottom: -100px; opacity: 1; }
+      100% { bottom: 110%; opacity: 0; }
+    }
+
+    .burst {
+      position: fixed;
+      pointer-events: none;
+      z-index: 1000;
+      animation: popEffect 1s ease-out forwards;
+    }
+
+    @keyframes popEffect {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: translate(var(--x), var(--y)) rotate(var(--r)) scale(1.4); opacity: 0; }
+    }
+
+    .message {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #fff0f6;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 4px 30px rgba(0,0,0,0.2);
+      font-size: 1.5rem;
+      color: #ff1493;
+      display: none;
+      z-index: 9999;
+    }
+
+ button {
+  padding: 10px 30px;
+  position: absolute;
+  left: 50%;
+  bottom: 15px; /* distance from bottom */
+  transform: translateX(-50%);
+  width: 150px;
+  background: linear-gradient(to right, #ffbf64, #5ff278);
+  border-radius: 8px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+  </style>
+</head>
+<body>
+
+  <audio id="popSound" src="pop.mp3"></audio>
+  <audio id="confettiSound" src="blast.mp3"></audio>
+
+  <audio id="gameMusic" src="https://cdn.pixabay.com/audio/2022/11/15/audio_3343b7ccdb.mp3" autoplay loop></audio>
+
+  <div id="cta">🎯 Tap the balloons for surprise🎈💝</div>
+  <div id="scoreBoard">🎈 Popped: 0</div>
+  <div class="message" id="surpriseMsg">🎉 You made it to 5 pops, Mallamma keep Going..💖</div>
+   <div class="message" id= "surpriseMsgg">🤦🏻‍♂️sak maaadle, game matte aadu, ivag next click madu </div>
+   <a href="quiz.html"><Button>Next 👉🏼</Button></a>
+
+  <script>
+    let score = 0;
+    const scoreBoard = document.getElementById("scoreBoard");
+    const surpriseMsg = document.getElementById("surpriseMsg");
+     const surpriseMsgg = document.getElementById("surpriseMsgg");
+    const popSound = document.getElementById("popSound");
+    const gameMusic = document.getElementById("gameMusic");
+
+    function createBalloon() {
+      const balloon = document.createElement("div");
+      balloon.className = "balloon";
+      balloon.style.left = Math.random() * 90 + "vw";
+
+      const colors = ['#ffb3c6', '#ffd6e0', '#b3f0ff', '#cceeff', '#ffccf9'];
+      const emoji = ['🎈', '🌹', '🍬', '💖', '🎂','🍭'];
+      balloon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+      balloon.textContent = emoji[Math.floor(Math.random() * emoji.length)];
+
+      document.body.appendChild(balloon);
+
+      balloon.addEventListener("click", (e) => {
+        balloon.remove();
+        score++;
+        popSound.currentTime = 0;
+        popSound.play();
+        scoreBoard.innerText = `🎈 Popped: ${score}`;
+        blast(e.clientX, e.clientY);
+
+        if (score === 5) {
+          surpriseMsg.style.display = "block";
+          setTimeout(() => surpriseMsg.style.display = "none", 3000);
+        }
+        
+        if (score === 13) {
+          surpriseMsgg.style.display = "block";
+          setTimeout(() => surpriseMsgg.style.display = "none", 4000);
+        }
+
+        if (score === 10) {
+          confettiExplosion();
+        }
+      });
+
+      setTimeout(() => balloon.remove(), 6500);
+    }
+
+    function blast(x, y) {
+      const burstEmojis = ['🌸','🌹','✨','💖','🎊','🧁'];
+      for (let i = 0; i < 12; i++) {
+        const span = document.createElement('span');
+        span.className = 'burst';
+        span.innerText = burstEmojis[Math.floor(Math.random() * burstEmojis.length)];
+        span.style.left = `${x}px`;
+        span.style.top = `${y}px`;
+
+        const dx = (Math.random() - 0.5) * 300 + 'px';
+        const dy = (Math.random() - 0.5) * 300 + 'px';
+        const rot = Math.random() * 720 - 360 + 'deg';
+
+        span.style.setProperty('--x', dx);
+        span.style.setProperty('--y', dy);
+        span.style.setProperty('--r', rot);
+
+        document.body.appendChild(span);
+        setTimeout(() => span.remove(), 1000);
+      }
+    }
+
+   function confettiExplosion() {
+  document.getElementById("confettiSound").play(); // 🔊 Add this line
+
+  for (let i = 0; i < 50; i++) {
+    const emoji = ['🎊','🎉','💖','✨','🌟'][Math.floor(Math.random() * 5)];
+    const span = document.createElement("span");
+    span.className = "burst";
+    span.innerText = emoji;
+    span.style.left = Math.random() * window.innerWidth + "px";
+    span.style.top = Math.random() * window.innerHeight + "px";
+
+    const dx = (Math.random() - 0.5) * 600 + 'px';
+    const dy = (Math.random() - 0.5) * 600 + 'px';
+    const rot = Math.random() * 720 - 360 + 'deg';
+
+    span.style.setProperty('--x', dx);
+    span.style.setProperty('--y', dy);
+    span.style.setProperty('--r', rot);
+
+    document.body.appendChild(span);
+    setTimeout(() => span.remove(), 1500);
+  }
+}
+
+
+    setInterval(createBalloon, 800);
+  </script>
+
+</body>
+</html>

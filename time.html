@@ -1,0 +1,222 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Live Birthday Counter</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #d8f8f3, #f8e8f4);
+      color: #333;
+      overflow: hidden;
+    }
+    .counter-box {
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.4);
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  text-align: center;
+  max-width: 500px;
+  width: 90%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+#h1 {
+  color: #ff69b4;
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  animation: fadeIn 1.5s ease-in;
+}
+
+.time {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  line-height: 1.8;
+}
+
+.highlight {
+  color: #ff69b4;
+  font-weight: bold;
+}
+
+
+.quote {
+  margin: 10px auto;
+  max-width: 80%;
+  padding: 20px 25px;
+  font-size: 1.2rem;
+  /* font-family: 'DM Serif Display', serif; */
+  color: #222;
+  background: #fcf4f4;
+  border-left: 5px solid #ff7e5f;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+  opacity: 0;
+  transform: translateX(-50px) skewX(-10deg);
+  animation: skewSlideIn 1s ease-out forwards;
+  transition: all 0.3s ease;
+}
+
+
+@keyframes skewSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-50px) skewX(-10deg);
+  }
+  60% {
+    opacity: 1;
+    transform: translateX(10px) skewX(2deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) skewX(0);
+  }
+}
+
+
+
+@keyframes float {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-100vh); opacity: 0; }
+}
+
+.emoji {
+  position: absolute;
+  font-size: 2rem;
+  animation: float 6s linear infinite;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+
+@media (max-width: 550px) {
+  .counter-box {
+    padding: 25px 20px;
+    width: 80%;
+    border-radius: 15px;
+    height: 470px !important;
+  }
+
+  #h1 {
+    font-size: 1.7rem;
+    line-height: 1.5;
+  }
+
+  .time {
+    font-size: 1.5rem;
+    line-height: 1.6;
+  }
+
+  .quote {
+    font-size: 1.3rem;
+    padding: 15px 20px;
+    margin: 45px auto;
+    border-left: 4px solid #ff7e5f;
+    border-radius: 8px;
+  }
+}
+
+button{
+  padding: 10px 30px;
+  background: linear-gradient(to right, #ffbf64, #5ff278);
+  border-radius: 8px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 20px;
+  cursor: pointer;
+ 
+}
+
+  </style>
+</head>
+<body>  <div class="counter-box">
+    <h1 id="h1">🌸 Mythri, You've Been Magical From 🌸</h1>
+    <div class="time" id="live-time">Loading...</div>
+    <div class="quote" id="quote"></div>
+      <a href="timeline.html"><Button>Next Nodle.. 👉🏼</Button></a>
+  </div> 
+  
+
+  
+  <!-- Emoji Floating Elements -->  <script>
+    const emojis = ['🌸', '🎈', '✨', '💖', '🧁'];
+    for (let i = 0; i < 25; i++) {
+      const emoji = document.createElement('div');
+      emoji.className = 'emoji';
+      emoji.style.left = Math.random() * 100 + 'vw';
+      emoji.style.top = '100vh';
+      emoji.style.animationDuration = (4 + Math.random() * 3) + 's';
+      emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      document.body.appendChild(emoji);
+    }
+  </script>  <script>
+    const dob = new Date("2005-07-20T00:00:00");
+
+    function updateLiveTime() {
+      const now = new Date();
+      let diff = now - dob;
+
+      const msInSec = 1000;
+      const msInMin = msInSec * 60;
+      const msInHr  = msInMin * 60;
+      const msInDay = msInHr * 24;
+
+      const years = now.getFullYear() - dob.getFullYear();
+      const birthThisYear = new Date(now.getFullYear(), dob.getMonth(), dob.getDate());
+
+      let adjustedYears = years;
+      if (now < birthThisYear) adjustedYears--;
+
+      const days = Math.floor(diff / msInDay);
+      const hrs  = Math.floor((diff % msInDay) / msInHr);
+      const mins = Math.floor((diff % msInHr) / msInMin);
+      const secs = Math.floor((diff % msInMin) / msInSec);
+
+      document.getElementById("live-time").innerHTML = `
+        <span class="highlight">${adjustedYears}</span> years, i.e<br>
+        <span class="highlight">${days}</span> days,
+        <span class="highlight">${hrs}</span> hours, <br>
+        <span class="highlight">${mins}</span> minutes,
+        <span class="highlight">${secs}</span> seconds
+      `;
+    }
+
+    updateLiveTime();
+    setInterval(updateLiveTime, 1000);
+
+    // Rotating Quotes
+  const quotes = [
+  "Le magane, Time with you hits different 🎉",
+   "Vibe check? You passed without Exam 💫",
+"Not always in touch, you’re still my default da.",
+   "When I say ‘my people’, you top the list.",
+  "One message from you = instant mood fix.",
+
+
+ 
+];
+
+    let currentQuote = 0;
+    function rotateQuote() {
+      document.getElementById("quote").textContent = quotes[currentQuote];
+      currentQuote = (currentQuote + 1) % quotes.length;
+    }
+
+    rotateQuote();
+    setInterval(rotateQuote, 5000);
+  </script></body>
+</html>

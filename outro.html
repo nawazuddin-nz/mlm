@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🌌 The End</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+   body {
+  background: linear-gradient(to top, #0f2027, #203a43, #2c5364);
+  font-family: 'Nunito', sans-serif;
+  color: #fff;
+  overflow: hidden;
+  height: 100dvh;
+  max-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+  position: relative;
+  touch-action: manipulation;
+  overscroll-behavior: none; /* prevent scroll bounce on mobile */
+}
+
+
+    .stars {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .stars span {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      width: 2px; height: 2px;
+      animation: twinkle 3s infinite ease-in-out;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.3; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.5); }
+    }
+
+    .title {
+      font-size: 2rem;
+      font-weight: 700;
+      z-index: 2;
+      opacity: 0;
+      animation: fadeIn 1.5s ease forwards;
+    }
+
+    .emoji {
+      font-size: 5rem;
+      margin: 20px 0;
+      opacity: 0;
+      animation: riseUp 3s ease-in 1s forwards;
+      z-index: 2;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    @keyframes riseUp {
+      to { transform: translateY(-30px); opacity: 1; }
+    }
+
+    .cta-links {
+      z-index: 2;
+      margin-top: 25px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      opacity: 0;
+      animation: fadeIn 1s ease 2.5s forwards;
+    }
+
+    .cta-links a {
+      color: #ffccf1;
+      text-decoration: none;
+      font-size: 1.1rem;
+      border: 1px solid #fff;
+      padding: 10px 20px;
+      border-radius: 25px;
+      transition: 0.3s;
+    }
+
+    .cta-links a:hover {
+      background-color: #ffffff20;
+    }
+
+    .footer {
+      position: fixed;
+      bottom: 25px;
+      /* right: 200px; */
+      font-size: 1.1rem;
+      color: #e4e3e3;
+      z-index: 2;
+      opacity: 0.8;
+    }
+
+    @media (max-width: 500px) {
+      .title { font-size: 1.5rem;
+      
+      }
+      .footer{
+        right: none;
+      }
+      .emoji { font-size: 4rem; }
+      .cta-links a { font-size: 1rem; padding: 8px 16px; }
+    }
+
+
+         button {
+  padding: 10px 30px;
+ 
+  width: 150px;
+  background: linear-gradient(to right, #ffbf64, #5ff278);
+  border-radius: 8px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+  </style>
+</head>
+<body>
+
+  <div class="stars" id="stars"></div>
+
+  <div class="title">And with that... the magic rests for now 🌙</div>
+  <div class="emoji">🧚‍♀️<br></div>
+
+  <div class="cta-links">
+    <a href="booknew.html">📖 Revisit Memories</a>
+    <a href="quiz.html">🎯 Replay Quiz</a>
+    <a href="baloon.html">🚀 Baloon game</a>
+    <a href="timeline.html">⏳ Back to Timeline</a>
+    <a href="letter.html">💌 Reread The Letter</a>
+    <a href="hero.html">🚀 Go to Start</a>
+  </div>
+
+  <div class="footer">
+    Built with Javascript, not 💖 <br> by ur average Techy Bro -Nz!😅 
+  </div>
+
+  <!-- Background Music -->
+  <audio autoplay loop>
+    <source src="https://cdn.pixabay.com/download/audio/2023/08/04/audio_d134380efc.mp3?filename=soft-magic-story-158707.mp3" type="audio/mp3">
+  </audio>
+
+  <!-- Star Generator Script -->
+  <script>
+    const starContainer = document.getElementById("stars");
+    for (let i = 0; i < 70; i++) {
+      const star = document.createElement("span");
+      star.style.top = Math.random() * 100 + "vh";
+      star.style.left = Math.random() * 100 + "vw";
+      star.style.animationDelay = Math.random() * 3 + "s";
+      starContainer.appendChild(star);
+    }
+  </script>
+
+</body>
+</html>

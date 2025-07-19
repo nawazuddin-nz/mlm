@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Bestie Quiz 🎉</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Quicksand', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #ffe6f0, #e0f7fa);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      flex-direction: column;
+    }
+
+    .quiz-box {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(12px);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 20px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.2);
+      padding: 30px 20px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      animation: fadeIn 0.7s ease;
+    }
+
+    .question {
+      font-size: 1.3rem;
+      color: #222;
+      margin-bottom: 20px;
+    }
+
+    .options button, .restart-btn {
+      display: block;
+      width: 100%;
+      margin: 12px 0;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.5);
+      color: #333;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .options button:hover, .restart-btn:hover {
+      background: #ffccf9;
+      transform: scale(1.03);
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      color: #444;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .final-msg {
+      font-size: 1.4rem;
+      color: #d63384;
+      margin-top: 20px;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .confetti {
+      position: fixed;
+      font-size: 1.5rem;
+      animation: drop 1.5s ease-out forwards;
+      pointer-events: none;
+      z-index: 99;
+    }
+
+    @keyframes drop {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(100vh); opacity: 0; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+
+    .q-img {
+  max-width: 100%;
+  height: 200px;
+  border-radius: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+  </style>
+</head>
+<body>
+
+  <div class="quiz-box" id="quizBox">
+    <div class="question" id="question">Loading...</div>
+    <div id="question-image"></div>
+ <div class="options" id="options"></div>
+    <div class="result" id="result"></div>
+    <div class="final-msg" id="finalMsg"></div>
+    <button class="restart-btn" id="restartBtn" style="display: none;" onclick="restartQuiz()">🔄 Restart Quiz</button>
+  </div>
+
+  <!-- Sounds -->
+  <audio id="correctSound" src="correct.mp3"></audio>
+  <audio id="wrongSound" src="wrong.mp3"></audio>
+
+  <script>
+    const questions = [
+       
+      {
+        q: "Let’s see how well you know me. \n What’s my Fav Food?",
+        options: ["Shawarma", "Biriyani", "Dal Rice Curd", "None of these😴"],
+        answer: 2,
+         wrong: "Not That Madam😅"
+      },
+      {
+        q: "Remember?, the width of our Universe",
+        options: ["~91 Billion ligt years ", "~93", "~96", "~13.8"],
+        answer: 1,
+        wrong: "Martogbittiya 🤦🏻‍♂️"
+      },
+      {
+        q: "what subject record u helped me write in PUC",
+        options: ["Physics", "Chemistry", "CS"],
+        answer: 1,
+         wrong: "Nin bardidre nenp irtittu!"
+      },
+       {
+  q: "Remember my blood Group?",
+ 
+  options: ["A +ve", "O +ve", "O -ve", "A -ve"],
+  answer: 3,
+  wrong: "Areeee"
+},
+      {
+        q: "Who is my Best friend?",
+        options: ["Mythri", "Mayuri"],
+        answer: 1,
+        crct:"Bcoz, You are the Bestest💖",
+        wrong: "Nahhh, You are the Bestest💖"
+      },
+        {
+        q: "Whats my 3rd sem score?",
+        options: ["9.7", "9.8","9.6","9.75"],
+        answer: 0,
+        wrong: "Happpens..."
+      }
+    
+
+    ];
+
+    let current = 0;
+    let score = 0;
+
+    const questionEl = document.getElementById("question");
+    const optionsEl = document.getElementById("options");
+      
+    const resultEl = document.getElementById("result");
+    const finalMsgEl = document.getElementById("finalMsg");
+    const restartBtn = document.getElementById("restartBtn");
+
+    const correctSound = document.getElementById("correctSound");
+    const wrongSound = document.getElementById("wrongSound");
+
+   function showQuestion() {
+  const q = questions[current];
+  questionEl.innerText = q.q;
+  optionsEl.innerHTML = "";
+  resultEl.innerText = "";
+  finalMsgEl.innerText = "";
+  restartBtn.style.display = "none";
+
+  // 🌟 Show image if present
+  const imageContainer = document.getElementById("question-image");
+  if (q.img) {
+    imageContainer.innerHTML = `<img src="${q.img}" alt="question image" class="q-img" />`;
+  } else {
+    imageContainer.innerHTML = ""; // Clear if no image
+  }
+
+  // Options
+  q.options.forEach((opt, index) => {
+    const btn = document.createElement("button");
+    btn.innerText = opt;
+    btn.onclick = () => checkAnswer(index);
+    optionsEl.appendChild(btn);
+  });
+}
+
+function checkAnswer(index) {
+  const q = questions[current];
+  const correct = q.answer;
+  const wrongMsg = q.wrong;
+  const crctMsg = q.crct;
+
+  if (index === correct) {
+    score++;
+    correctSound.play();
+    miniConfetti();
+
+    resultEl.innerText = crctMsg || "";
+    
+  } else {
+    wrongSound.play();
+    resultEl.innerText = wrongMsg || "Oops, not quite!";
+  }
+
+  current++;
+  if (current < questions.length) {
+    setTimeout(showQuestion, 1500);
+  } else {
+    setTimeout(showResult, 1300);
+  }
+}
+
+
+    function showResult() {
+      questionEl.innerText = "🎉 Quiz Finished!";
+      optionsEl.innerHTML = "";
+      resultEl.innerText = `You got ${score}/${questions.length} right!`;
+      restartBtn.style.display = "block";
+
+      if (score >= 1) {
+        bigConfetti();
+        finalMsgEl.innerHTML = `
+        🥳 Surprise Unlocked!<br>
+        <br>
+        <a href="surprise.html" style="color:#ff1493; font-weight:bold;">Click for a tiny surprise 🎁</a>`;
+      } else {
+        finalMsgEl.innerHTML = `Mallamma, even if you flunked this quiz...<br>You're still my no.1 bestie 💖`;
+      }
+    }
+
+    function miniConfetti() {
+      const emojis = ["🎉", "✨", "💖", "🌸", "🧁"];
+      for (let i = 0; i < 15; i++) {
+        const span = document.createElement('span');
+        span.className = 'confetti';
+        span.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+        span.style.left = `${Math.random() * 100}vw`;
+        span.style.top = `0vh`;
+        document.body.appendChild(span);
+        setTimeout(() => span.remove(), 1500);
+      }
+    }
+
+    function bigConfetti() {
+      const emojis = ["🎉", "💖", "🌟", "🎊", "🎈"];
+      for (let i = 0; i < 50; i++) {
+        const span = document.createElement('span');
+        span.className = 'confetti';
+        span.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+        span.style.left = `${Math.random() * 100}vw`;
+        span.style.top = `${Math.random() * 100}vh`;
+        document.body.appendChild(span);
+        setTimeout(() => span.remove(), 2000);
+      }
+    }
+
+    function restartQuiz() {
+      current = 0;
+      score = 0;
+      showQuestion();
+    }
+
+    // Load first question
+    showQuestion();
+  </script>
+
+</body>
+</html>

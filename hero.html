@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mallamma’s Birthday Blast 🎉</title>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #e0f7ff, #ffe6f7);
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 40px 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      background: linear-gradient(to right, #de3d8d, #4ab9f1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: fadeSlide 1s ease-out forwards;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: #444;
+      margin-top: 1rem;
+      max-width: 600px;
+      animation: fadeIn 2s ease-out forwards;
+      animation-delay: 0.5s;
+      opacity: 0;
+    }
+
+    .btn-start {
+      margin-top: 2rem;
+      padding: 14px 28px;
+      font-size: 1rem;
+      background: #ff80bf;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 0 10px #ff80bf;
+      transition: transform 0.3s ease, background 0.3s ease;
+      animation: fadeIn 2s ease-out forwards;
+      animation-delay: 1s;
+      opacity: 0;
+    }
+
+    .btn-start:hover {
+      background: #ff5ea6;
+      transform: scale(1.05);
+    }
+
+    @keyframes fadeSlide {
+      0% { transform: translateY(30px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    .emoji-container {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .emoji {
+      position: absolute;
+      font-size: 2rem;
+      bottom: -100px;
+      animation: floatUp 15s linear infinite;
+      opacity: 0.6;
+    }
+
+    .emoji:nth-child(1) { left: 10%; animation-delay: 0s; }
+    .emoji:nth-child(2) { left: 30%; animation-delay: 3s; }
+    .emoji:nth-child(3) { left: 50%; animation-delay: 1s; }
+    .emoji:nth-child(4) { left: 70%; animation-delay: 5s; }
+    .emoji:nth-child(5) { left: 90%; animation-delay: 2s; }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-120vh); }
+    }
+
+    .surprise-btn {
+      position: fixed;
+      font-size: 1.5rem;
+      background: #fff;
+      padding: 10px;
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+      cursor: pointer;
+      animation: floatBtn 4s ease-in-out infinite;
+      z-index: 10;
+    }
+
+    .surprise-btn:nth-child(2) { top: 30%; left: 10%; animation-delay: 0s; }
+    .surprise-btn:nth-child(3) { bottom: 20%; right: 12%; animation-delay: 2s; }
+
+    @keyframes floatBtn {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .burst {
+      position: fixed;
+      pointer-events: none;
+      z-index: 999;
+      animation: explode 1.2s ease-out forwards;
+    }
+
+    @keyframes explode {
+      0% { transform: scale(0.2) translate(0,0) rotate(0); opacity: 1; }
+      100% { transform: scale(1) translate(var(--x), var(--y)) rotate(var(--r)); opacity: 0; }
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2.4rem; }
+      .hero p { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating Emojis -->
+  <div class="emoji-container">
+    <div class="emoji">🎈</div>
+    <div class="emoji">🌸</div>
+    <div class="emoji">💖</div>
+    <div class="emoji">✨</div>
+    <div class="emoji">🎈</div>
+  </div>
+
+  <!-- Surprise Buttons -->
+  <div class="surprise-btn" onclick="burstAtClick(event)">🎁Click</div>
+  <div class="surprise-btn" onclick="fullScreenBurst()">🎊Tap</div>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>Happy Birthday, Mallamma! 🎉</h1>
+    <p>This isn’t just a wish... it’s a magical digital blast 💫</p>
+   <a href="time.html"> <button class="btn-start">Start the Journey ✨</button></a>
+  </section>
+  
+
+  <!-- Music -->
+<audio id="bgm" autoplay loop >
+  <source src="music.mp3" type="audio/mp3">
+</audio>
+<audio id="popSound" src="pop.mp3" preload="auto"></audio>
+<audio id="blastSound" src="blast.mp3" preload="auto"></audio>
+
+
+
+  <script>
+    function startMagic() {
+      alert("🎉 Innu surprises idava, Scroll madle Magane!");
+      window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
+    }
+
+    window.addEventListener('load', () => {
+      const audio = document.getElementById('bgm');
+      audio.volume = 0.4;
+      const unlock = () => {
+        audio.play().catch(() => {});
+        window.removeEventListener('click', unlock);
+      };
+      window.addEventListener('click', unlock);
+    });
+
+    // Button 1: Random burst from click point
+   function burstAtClick(e) {
+  const popSound = document.getElementById('popSound');
+if (popSound) {
+  popSound.currentTime = 0; // Rewind to start
+  setTimeout(() => {
+    popSound.play();
+  }, 500); // 1000ms = 1 second
+}
+
+
+  const emojis = ['🌸','🎈','✨','💖','🎊','🧁'];
+  for (let i = 0; i < 40; i++) {
+    const emoji = emojis[Math.floor(Math.random() * emojis.length)];
+    const span = document.createElement('span');
+    span.className = 'burst';
+    span.innerText = emoji;
+
+    span.style.left = `${e.clientX}px`;
+    span.style.top = `${e.clientY}px`;
+
+    const size = Math.random() * 2 + 7;
+    span.style.fontSize = `${size}rem`;
+
+    const x = (Math.random() - 0.5) * 500 + 'px';
+    const y = (Math.random() - 0.5) * 500 + 'px';
+    const r = Math.random() * 720 - 360 + 'deg';
+
+    span.style.setProperty('--x', x);
+    span.style.setProperty('--y', y);
+    span.style.setProperty('--r', r);
+
+    document.body.appendChild(span);
+    setTimeout(() => span.remove(), 1200);
+  }
+}
+
+function fullScreenBurst() {
+  const blastSound = document.getElementById('blastSound');
+  if (blastSound) {
+    blastSound.currentTime = 0;
+    blastSound.play();
+  }
+
+  const emojis = ['🌸', '🎈', '💖', '✨', '🎊'];
+  for (let i = 0; i < 30; i++) {
+    const emoji = emojis[Math.floor(Math.random() * emojis.length)];
+    const span = document.createElement('span');
+    span.className = 'burst';
+    span.innerText = emoji;
+
+    span.style.left = `${Math.random() * window.innerWidth}px`;
+    span.style.top = `${Math.random() * window.innerHeight}px`;
+
+    const size = Math.random() * 2 + 7;
+    span.style.fontSize = `${size}rem`;
+
+    const x = (Math.random() - 0.5) * 300 + 'px';
+    const y = (Math.random() - 0.5) * 300 + 'px';
+    const r = Math.random() * 360 - 180 + 'deg';
+
+    span.style.setProperty('--x', x);
+    span.style.setProperty('--y', y);
+    span.style.setProperty('--r', r);
+
+    document.body.appendChild(span);
+    setTimeout(() => span.remove(), 1200);
+  }
+}
+
+
+ window.addEventListener('load', () => {
+  const audio = document.getElementById('bgm');
+  audio.volume = 0.4;
+  const unlock = () => {
+    audio.play().catch(() => {});
+    window.removeEventListener('click', unlock);
+  };
+  window.addEventListener('click', unlock);
+});
+
+document.addEventListener('visibilitychange', () => {
+  const audio = document.getElementById('bgm');
+  if (document.hidden) {
+    audio.pause(); // pause when user leaves
+  } else {
+    audio.play().catch(() => {});
+  }
+});
+
+
+
+  </script>
+</body>
+</html>

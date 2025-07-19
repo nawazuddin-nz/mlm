@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Memory Flipbook 📖</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom right, #f8fbff, #e1f5fe);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+      overflow-x: hidden;
+    }
+
+    .book {
+      width: 320px;
+      height: 440px;
+      perspective: 1500px;
+      position: relative;
+    }
+
+    .page {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      transform-origin: left;
+      background-color: #fff;
+      transition: transform 1s ease, z-index 1s;
+      cursor: pointer;
+    }
+
+    .page img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.95);
+    }
+
+    .caption {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      padding: 12px;
+      font-size: 0.95rem;
+      background: rgba(0, 0, 0, 0.4);
+      color: #fff;
+      text-align: center;
+      font-weight: 500;
+    }
+
+    .flipped {
+      transform: rotateY(-160deg);
+      z-index: 0 !important;
+    }
+
+    .page:nth-child(1) { z-index: 6; }
+    .page:nth-child(2) { z-index: 5; }
+    .page:nth-child(3) { z-index: 4; }
+    .page:nth-child(4) { z-index: 3; }
+    .page:nth-child(5) { z-index: 2; }
+    .page:nth-child(6) { z-index: 1; }
+
+    @media (max-width: 480px) {
+      .book {
+        width: 80vw;
+        height: 600px;
+        margin-left: 200px;
+      }
+      .caption {
+        font-size: 0.85rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="book" id="book">
+  <div class="page">
+    <img src="https://wallpapers.com/images/featured/doraemon-6ag1ry72uy2s9jmg.jpg" />
+    <div class="caption">"The day we met — the beginning of everything beautiful 💫"</div>
+  </div>
+  <div class="page">
+    <img src="https://w0.peakpx.com/wallpaper/215/786/HD-wallpaper-doraemon-fondo-de-pantalla.jpg" />
+    <div class="caption">"Laughter louder than the world 🌍💖"</div>
+  </div>
+  <div class="page">
+    <img src="https://i.pinimg.com/736x/ec/a9/75/eca97598ea417675156edd1c2f6f0107.jpg" />
+    <div class="caption">"We froze that moment in forever ❄️"</div>
+  </div>
+  <div class="page">
+    <img src="https://w0.peakpx.com/wallpaper/215/786/HD-wallpaper-doraemon-fondo-de-pantalla.jpg" />
+    <div class="caption">"From dumb jokes to deep talks — legendary duo 🎭💬"</div>
+  </div>
+  <div class="page">
+    <img src="https://wallpapers.com/images/featured/doraemon-6ag1ry72uy2s9jmg.jpg" />
+    <div class="caption">"When you smiled, the world paused 🌸"</div>
+  </div>
+  <div class="page">
+    <img src="https://i.pinimg.com/736x/ec/a9/75/eca97598ea417675156edd1c2f6f0107.jpg" />
+    <div class="caption">"No goodbye, only 'see you always' 💫"</div>
+  </div>
+</div>
+
+<script>
+  const pages = document.querySelectorAll('.page');
+  pages.forEach((page, index) => {
+    page.addEventListener('click', () => {
+      if (!page.classList.contains('flipped')) {
+        page.classList.add('flipped');
+        page.style.zIndex = index;
+      } else {
+        page.classList.remove('flipped');
+        page.style.zIndex = pages.length - index;
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
